@@ -13,7 +13,7 @@ public class scoreKeeper : MonoBehaviour
     public Text scoreText;
     public Text highScore;
     public Text lives;
-    int score = 0;
+    int score = -1;
     int highS = 0;
     int life = 3;
     private void Awake(){
@@ -23,8 +23,8 @@ public class scoreKeeper : MonoBehaviour
     {
         highS = PlayerPrefs.GetInt("highscore", 0);
         scoreText.text = "Score: " + score.ToString();
-        highScore.text = "Highscore: " + score.ToString();
-        lives.text = "Lives: x" + score.ToString();
+        highScore.text = "Highscore: " + highS.ToString();
+        lives.text = "Lives: x" + life.ToString();
     }
 
     // Update is called once per frame

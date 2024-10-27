@@ -8,7 +8,7 @@ public class characterController : MonoBehaviour
     // Start is called before the first frame update
     MovementController movementController;
 
-    void Start()
+    void Awake()
     {
         movementController = GetComponent<MovementController>();
     }
@@ -24,6 +24,7 @@ public class characterController : MonoBehaviour
         }
         else if(Input.GetKey(KeyCode.W)){
             movementController.SetDirection("up");
+            
         }
         else if(Input.GetKey(KeyCode.S)){
             movementController.SetDirection("down");
