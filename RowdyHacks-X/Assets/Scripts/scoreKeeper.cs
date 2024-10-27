@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class scoreKeeper : MonoBehaviour
@@ -25,6 +26,14 @@ public class scoreKeeper : MonoBehaviour
         scoreText.text = "Score: " + score.ToString();
         highScore.text = "Highscore: " + highS.ToString();
         lives.text = "Lives: x" + life.ToString();
+    }
+
+    public void removeLife(){
+        life-=1;
+        scoreText.text = "Score: " + score.ToString();
+        if(life < 1){
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
     // Update is called once per frame
