@@ -13,6 +13,10 @@ public class MovementController : MonoBehaviour
     public string direction = "";
     public string lastDirection = "";
     public bool canWarp = true;
+
+    public bool isGhost = false;
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -35,6 +39,12 @@ public class MovementController : MonoBehaviour
             reverseDirection = true;
         }
         if((transform.position.x == currentNode.transform.position.x && transform.position.y == currentNode.transform.position.y) || reverseDirection){
+
+            if (isGhost)
+            {
+                GetComponent<EnemyController>().ReachedCenterOfNode(currentNodeController);
+            }
+
             if(currentNodeController.isWarpLeftNode && canWarp){
                 currentNode = gameManager.leftWarpNode;
                 transform.position = currentNode.transform.position;
@@ -74,6 +84,13 @@ public class MovementController : MonoBehaviour
                 canWarp = false;
             }
             else{
+
+                if (currentNodeController.isGhostStartingNode && direction == "down" 
+                && (! isGhost || GetComponent<EnemyController>().ghostNodeState != EnemyController.GhostNodeStatesEnum.respawning))
+                {
+                    direction =lastDirection;
+                }
+
                 GameObject newNode = currentNodeController.getNodeFromDirection(direction);
 
                 if( newNode != null){
