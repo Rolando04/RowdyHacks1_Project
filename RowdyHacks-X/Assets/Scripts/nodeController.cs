@@ -15,16 +15,34 @@ public class nodeController : MonoBehaviour
     public GameObject NodeRight;
     public GameObject NodeUp;
     public GameObject NodeDown;
+    public bool isWarpRightNode = false;
+    public bool isWarpLeftNode = false;
+    public bool isWarpTopLeftNode1 = false;
+    public bool isWarpTopLeftNode2 = false;
+    public bool isWarpTopRightNode1 = false;
+    public bool isWarpTopRightNode2 = false;
+    public bool isWarpBottomLeftNode1 = false;
+    public bool isWarpBottomLeftNode2 = false;
+    public bool isWarpBottomRightNode1 = false;
+    public bool isWarpBottomRightNode2 = false;
+    public bool isPelletNode = false;
+    public bool hasPellet = false;
+    public SpriteRenderer pelletSprite;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {  
+        if(transform.childCount > 0){
+            hasPellet = true;
+            isPelletNode = true;
+            pelletSprite = GetComponentInChildren<SpriteRenderer>();
+        }
         //Shoots a raycast going downwards
         RaycastHit2D[] hitsDown;
         hitsDown = Physics2D.RaycastAll(transform.position, -Vector2.up);
 
         for(int i = 0; i<hitsDown.Length; i++){
             float distance = math.abs(hitsDown[i].point.y - transform.position.y);
-            if(distance < 0.4f){
+            if(distance < 0.4f && hitsDown[i].collider.tag == "Node"){
                 canMoveDown = true;
                 NodeDown = hitsDown[i].collider.gameObject;
             }
@@ -35,7 +53,7 @@ public class nodeController : MonoBehaviour
 
         for(int i = 0; i < hitsUp.Length; i++){
             float distance = math.abs(hitsUp[i].point.y - transform.position.y);
-            if(distance < 0.4f){
+            if(distance < 0.4f && hitsUp[i].collider.tag == "Node"){
                 canMoveUp = true;
                 NodeUp = hitsUp[i].collider.gameObject;
             }
@@ -46,7 +64,7 @@ public class nodeController : MonoBehaviour
 
         for(int i = 0; i < hitsRight.Length; i++){
             float distance = math.abs(hitsRight[i].point.x - transform.position.x);
-            if(distance < 0.4f){
+            if(distance < 0.4f && hitsRight[i].collider.tag == "Node"){
                 canMoveRight = true;
                 NodeRight = hitsRight[i].collider.gameObject;
             }
@@ -57,7 +75,7 @@ public class nodeController : MonoBehaviour
 
         for(int i = 0; i < hitsLeft.Length; i++){
             float distance = math.abs(hitsLeft[i].point.x - transform.position.x);
-            if(distance < 0.4f){
+            if(distance < 0.4f && hitsLeft[i].collider.tag == "Node"){
                 canMoveLeft = true;
                 NodeLeft = hitsLeft[i].collider.gameObject;
             }
@@ -87,4 +105,19 @@ public class nodeController : MonoBehaviour
             return null;
         }
     }
+
+    /*private void {
+        if(collision.tag == "player" && isPelletNode){
+            hasPellet = false;
+            pelletSprite.enabled = false;
+        }
+    }*/
+    private void OnTriggerEnter2D(Collider2D collision){
+        if(collision.tag == "Player" && isPelletNode){
+            hasPellet = false;
+            pelletSprite.enabled = false;
+            scoreKeeper.instance.AddPoints();
+        }
+    }
+    
 }
