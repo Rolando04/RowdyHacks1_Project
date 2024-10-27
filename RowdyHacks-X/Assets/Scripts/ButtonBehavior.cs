@@ -21,4 +21,7 @@ public class ButtonBehavior : MonoBehaviour
         Debug.Log("Quit Game!");
         Application.Quit();
     }
+    public void Restart(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
 }

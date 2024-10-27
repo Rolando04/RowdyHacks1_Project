@@ -124,10 +124,12 @@ public class nodeController : MonoBehaviour
     }*/
     private void OnTriggerEnter2D(Collider2D collision){
         if(collision.tag == "Player" && isPelletNode){
+            if(pelletSprite.enabled == true){
+                scoreKeeper.instance.AddPoints();
+            }
             hasPellet = false;
             pelletSprite.enabled = false;
-            scoreKeeper.instance.AddPoints();
-        }
+        } 
     }
     
 }
